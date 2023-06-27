@@ -12,7 +12,7 @@ class GameScorecard:
         return self.__serving_player
 
     def set_serving_player(self, player_number):
-        self.__serving_player = player_number
+        pass
 
     @property
     def winner(self) -> int | None:
@@ -22,7 +22,7 @@ class GameScorecard:
         self.__winner = winner
 
     @property
-    def is_game_over(self) -> bool:
+    def is_over(self) -> bool:
         return bool(self.winner)
 
     @property

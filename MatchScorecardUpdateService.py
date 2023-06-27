@@ -13,12 +13,15 @@ class MatchStatusUpdateService:
         return self.__match
 
     def add_point(self, point_winner: int):
+        if self.match.is_over():
+            raise SyntaxError("cannot add point. match is over")
         self.match.add_point(point_winner)
         self.__update_match_status()
 
     def __update_match_status(self):
         match = self.match
         current_game = match.current_game
-        if current_game.is_game_over():
+        current_set = match.current_set
+        if current_game.is_over() and current_set.is_over():
             match.scorecard.current_game = ...
 
