@@ -1,17 +1,20 @@
 import typing
 from random import randint
+from ScoreCalculationInterface import ScoreCalculationInterface
 from SetScorecard import SetScorecard
 from GameScorecard import GameScorecard
 from TieBreakScorecard import TieBreakScorecard
 
 
-class MatchScorecard:
+class MatchScorecard(ScoreCalculationInterface):
     def __init__(self):
+        self.__interface = ScoreCalculationInterface()
+        self.__this_match_score = []
+        serving_player = self.__determine_serving_player()
+        new_set = self.__current_set_scorecard = SetScorecard(serving_player)
+        self.__this_match_score.append(new_set)
 
-        self.__this_match_score = {1: 0, 2: 0}
-        self.__current_set_scorecard = SetScorecard()
-        self.__current_game_scorecard = GameScorecard(randint(1, 2))
-        self.__winner = None
+
 
     def add_point(self, point_winner: int) -> int:
         self.__current_game_scorecard.add_point(point_winner)
@@ -33,4 +36,11 @@ class MatchScorecard:
     @property
     def current_set_scorecard(self):
         return self.__current_set_scorecard
+
+    def __determine_serving_player(self) -> int:
+        if len(self.__this_match_score) == 0:
+            serving_player = randint(1, 2)
+        else:
+            serving_player = 3 - self.__this_match_score[-1].current_server
+        return serving_player
 

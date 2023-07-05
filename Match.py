@@ -8,9 +8,6 @@ class Match:
         self.__player1 = Player(player1_name)
         self.__player2 = Player(player2_name)
         self.__scorecard = MatchScorecard()
-        self.__current_game = self.__scorecard.current_game_scorecard
-        self.__current_set = self.__scorecard.current_set_scorecard
-        self.__winner = None
 
     def add_point(self, point_winner: int):
         self.__scorecard.add_point(point_winner)
