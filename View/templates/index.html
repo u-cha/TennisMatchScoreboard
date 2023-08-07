@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head >
+        <meta lang="en">
+        <style> body {
+            background-color:#845EC2;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            
+        }
+        
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 50px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0px 5px 10px 2px #cdcad0;
+            color: rgba(43, 6, 44, 0.638);
+            
+        }
+        
+        .button {
+            border-radius: 5px 15px;
+            font-size: 25px;
+            padding: 0.75em;
+            margin: 1em;
+            background-color: #9B89B3;
+            border: 0;    
+            text-decoration: none;
+            box-shadow: 5px 5px 10px 2px #cdcad0;
+            color: rgba(43, 6, 44, 0.599);
+            
+            
+        }
+        
+        .button:hover {
+            background-color: #e8e3eb;
+        }</style>
+    </head>
+
+    <body>  
+    <div class="logo">
+        <p>Tennis Match</p>
+    </div>    
+    <div class="container">
+        <a class="item1 button" id="new-match" href="/new-match">Create a new match</a>
+    
+        <a class="item2 button" id="finished matches" href="/matches">View finished matches</a>
+    </div>
+    {{the}}
+
+
+
+    </body>
+
+
+</html>

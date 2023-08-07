@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head >
+        <meta lang="en">
+        <style> body {
+            background-color:#845EC2;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        }
+
+        .container {
+            padding: 20px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: no-wrap;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            justify-items: center;
+            margin: 5vh;
+
+        }
+
+        .logo {
+            font-size: 50px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0px 5px 10px 2px #cdcad0;
+            color: rgba(43, 6, 44, 0.638);
+
+        }
+
+        .label {
+
+            font-size: 25px;
+            padding: 0.75em;
+            margin: 1em;
+            background-color: #9B89B3;
+            border: 0;
+            text-decoration: none;
+            box-shadow: 5px 5px 10px 2px #cdcad042;
+            color: rgba(43, 6, 44, 0.599);
+
+
+        }
+
+        input {
+
+            font-size: 25px;
+            padding: 0.75em;
+            margin: 1em;
+            border: 0;
+            text-decoration: none;
+            box-shadow: 5px 5px 10px 2px #cdcad0;
+            color: rgba(43, 16, 44, 0.599);
+
+
+
+        }
+
+        .submit_button {
+            background-color: #9B89B3;
+            border-radius: 5px 15px;
+        }
+
+
+        .submit_button:hover {
+            background-color: #e8e3eb;
+        }
+        </style>
+    </head>
+
+    <body>
+    <div class="logo">
+        <p>Create New Match</p>
+    </div>
+    <div >
+        <form action="/new-match" method="POST">
+            <div class="container">
+                <label class="label player1" for="player1">PLAYER 1</label>
+                <input name= "player1" id="player1" type="text" placeholder="Input Player 1 name" required>
+
+                <label class="label player2" for="player2">PLAYER 2</label>
+                <input name= "player2" id="player2" type="text" placeholder="Input Player 1 name" required>
+            </div>
+
+            <div class="container">
+                <input type="submit" class="submit_button" value="CREATE MATCH" />
+            </div>
+        </form>
+    </div>
+
+    </body>
+
+
+</html>

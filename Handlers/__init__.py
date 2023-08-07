@@ -1,0 +1,5 @@
+from Handlers.index_page_handler import IndexPageHandler
+from Handlers.new_match_handler import NewMatchHandler
+from Handlers.ongoing_match_handler import OngoingMatchHandler
+from Handlers.finished_matches_handler import FinishedMatchesHandler
+
