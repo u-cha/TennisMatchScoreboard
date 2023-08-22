@@ -18,7 +18,7 @@ class PermanentDBService:
         with Connection(cls.engine) as connection:
             session = Session(connection)
             try:
-                session.add(obj)
+                session.merge(obj)
                 session.commit()
                 return True
             except sqlalchemy.exc.IntegrityError as error:
@@ -39,3 +39,19 @@ class PermanentDBService:
             session = Session(connection)
             result = session.execute(select(Match).where(Match.uuid == uuid))
             return result.fetchall()
+
+    @classmethod
+    def get_all_matches(cls):
+        cls.__create_tables()
+        with Connection(cls.engine) as connection:
+            session = Session(connection)
+            result = session.execute(select(Match))
+            return result.fetchall()
+
+    @classmethod
+    def delete_match(cls, match_uuid):
+        pass
+
+    @classmethod
+    def delete_players(cls, match_uuid):
+        pass

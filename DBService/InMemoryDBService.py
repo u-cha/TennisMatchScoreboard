@@ -2,8 +2,9 @@ import sqlalchemy.exc
 from sqlalchemy import create_engine, Connection
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import Session
-from sqlalchemy import select, insert, update
+from sqlalchemy import select, insert, update, delete, union
 from DBModels.dbmodels import Base, Match, Player
+
 
 
 class InMemoryDBService:
@@ -66,4 +67,23 @@ class InMemoryDBService:
         cls.__create_tables()
         with Session(cls.connection) as session:
             stmt = update(Match).where(Match.uuid == uuid).values(score=new_score)
+            session.execute(stmt)
+
+    @classmethod
+    def delete_match(cls, match_uuid):
+        cls.__establish_connection()
+        cls.__create_tables()
+        with Session(cls.connection) as session:
+            stmt = delete(Match).where(Match.uuid == match_uuid)
+            session.execute(stmt)
+
+    @classmethod
+    def delete_players(cls, match_uuid):
+        cls.__establish_connection()
+        cls.__create_tables()
+        with Session(cls.connection) as session:
+            select1 = select(Match.player1).where(Match.uuid == match_uuid)
+            select2 = select(Match.player2).where(Match.uuid == match_uuid)
+            player_ids = union(select1, select2)
+            stmt = delete(Player).where(Player.id.in_(player_ids))
             session.execute(stmt)

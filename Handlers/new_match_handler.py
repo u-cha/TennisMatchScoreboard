@@ -59,4 +59,3 @@ class NewMatchHandler(Handler):
         if db_service.persist(Player(name=player2_name)) is False:
             db_service.remove(Player(name=player1_name))
             return False
-

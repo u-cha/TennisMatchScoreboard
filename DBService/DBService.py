@@ -20,3 +20,14 @@ class DBService:
 
     def remove(self, obj):
         self.service.remove(obj)
+
+    def get_all_matches(self):
+        pass
+
+    def delete_match(self, match_uuid):
+        return self.service.delete_match(match_uuid)
+
+    def delete_players(self, match_uuid):
+        return self.service.delete_players(match_uuid)
+
+

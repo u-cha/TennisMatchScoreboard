@@ -19,7 +19,7 @@ class Match(Base):
     player1: Mapped[int] = mapped_column(ForeignKey("players.id"))
     player2: Mapped[int] = mapped_column(ForeignKey("players.id"))
     winner: Mapped[int] = mapped_column(ForeignKey("players.id"), nullable=True)
-    score: Mapped[str] = mapped_column(String(100))
+    score: Mapped[str] = mapped_column(String(500))
 
     def __repr__(self) -> str:
         return f"Match(uuid={self.uuid!r}, player1={self.player1!r}, player2={self.player2!r}, winner={self.winner!r}),\

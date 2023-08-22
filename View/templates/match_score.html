@@ -117,14 +117,18 @@
         <table class="scoretable">
             <tr class="player_row">
                 <td>{{player1}}</td>
-                <td>{% if server == 1%} V {% endif %}</td>
-                <td>{{game_score[0]}}</td>
-                <td>{{set1_score[0]}}</td>
-                <td>{{set2_score[0]}}</td>
-                <td>{{set3_score[0]}}</td>
-                <td><form method="post" id="pointForm" action="/match-score?uuid={{uuid}}">
+                <td>{% if server == 1%} <img src = "https://yastatic.net/s3/web4static/_/v2/static/media/short-logo-ru.b57bb87d.svg"> {% endif %}</td>
+                <td>{{current_game["p1_points"]}}</td>
+                {% for set in range(3) %}
+                    {% if set < num_sets %}
+                        <td>{{sets[set]["p1_points"]}}</td>
+                    {% else %}
+                        <td>0</td>
+                    {% endif %}
+                {% endfor %}
+                {% if not match_is_over %}<td><form method="post" id="pointForm" action="/match-score?uuid={{uuid}}">
                     <input type="submit" class="submit_button" name="player1" value="+" />
-                </form></td>
+                </form></td>{% endif %}
             </tr>
             <tr >
                 <td>Player</td>
@@ -133,18 +137,39 @@
                 <td>Set 1</td>
                 <td>Set 2</td>
                 <td>Set 3</td>
-                <td><b>Choose point winner</b></td>
+
+                {% if not match_is_over %}
+                    <td><b>Choose point winner</b></td>
+                {% else %}
+                    <td><b>Player {{match_winner}} won</b></td>
+                {% endif %}
+
             </tr>
             <tr class="player_row">
                 <td>{{player2}}</td>
-                <td>{% if server == 2%} V {% endif %}</td>
-                <td>{{game_score[1]}}</td>
-                <td>{{set1_score[1]}}</td>
-                <td>{{set2_score[1]}}</td>
-                <td>{{set3_score[1]}}</td>
-                <td>
-                    <input type="submit" class="submit_button" name="player2" value="+" form="pointForm" />
-                </td>
+                <td>{% if server == 2%} <img src = 'https://yastatic.net/s3/web4static/_/v2/static/media/short-logo-ru.b57bb87d.svg'> {% endif %}</td>
+                <td>{{current_game["p2_points"]}}</td>
+                {% for set in range(3) %}
+                    {% if set < num_sets %}
+                        <td>{{sets[set]["p2_points"]}}</td>
+                    {% else %}
+                        <td>0</td>
+                    {% endif %}
+                {% endfor %}
+
+                {% if not match_is_over %}
+                    <td>
+                        <input type="submit" class="submit_button" name="player2" value="+" form="pointForm" />
+                    </td>
+                {% else %}
+
+
+                    <td>
+                        <form method="get" id="back_to_main" action="/">
+                            <input type="submit" class="submit_button" name="back_to_main" value="Back to main page"/>
+                        </form>
+                    </td>
+                {% endif %}
               </tr>
           </table>
     </div>
