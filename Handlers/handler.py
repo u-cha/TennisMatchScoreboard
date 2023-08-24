@@ -1,4 +1,4 @@
-from response import Response
+from Handlers.response import Response
 from View.jinja import View
 
 
