@@ -6,7 +6,6 @@ from sqlalchemy import select, insert, update, delete, union
 from DBModels.dbmodels import Base, Match, Player
 
 
-
 class InMemoryDBService:
     engine = create_engine("sqlite+pysqlite:///:memory:",
                            connect_args={"check_same_thread": False},
@@ -76,6 +75,7 @@ class InMemoryDBService:
         with Session(cls.connection) as session:
             stmt = delete(Match).where(Match.uuid == match_uuid)
             session.execute(stmt)
+            session.commit()
 
     @classmethod
     def delete_players(cls, match_uuid):
@@ -87,3 +87,16 @@ class InMemoryDBService:
             player_ids = union(select1, select2)
             stmt = delete(Player).where(Player.id.in_(player_ids))
             session.execute(stmt)
+            session.commit()
+
+    @classmethod
+    def get_player_names(cls, player1_id, player2_id):
+        cls.__establish_connection()
+        cls.__create_tables()
+        with Session(cls.connection) as session:
+            player_ids = [player1_id, player2_id]
+            stmt = select(Player.name).where(Player.id.in_(player_ids))
+            result = session.execute(stmt)
+            names_list = result.fetchall()
+            names_dict = {"player1_name": names_list[0][0], "player2_name": names_list[1][0]}
+            return names_dict

@@ -41,7 +41,9 @@ class ScoreUpdateService:
 
     @staticmethod
     def __is_match_over(score):
-        return len(score.sets) == 3 and score.sets[-1].is_over
+        match_is_over = bool(len(score.sets) == 3 and score.sets[-1].is_over
+                             or len(score.sets) == 2 and score.sets[0].winner == score.sets[1].winner)
+        return match_is_over
 
     @staticmethod
     def __is_current_set_over(score):

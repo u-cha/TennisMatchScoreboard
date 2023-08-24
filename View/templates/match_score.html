@@ -111,12 +111,12 @@
     <body>
     <div class="logo">
         <p><b>Match Score</b><br>
-            {{player1}} var vs {{player2}} var</p>
+            {{player1_name}} vs {{player2_name}} </p>
     </div>
     <div>
         <table class="scoretable">
             <tr class="player_row">
-                <td>{{player1}}</td>
+                <td>{{player1_name}}</td>
                 <td>{% if server == 1%} <img src = "https://yastatic.net/s3/web4static/_/v2/static/media/short-logo-ru.b57bb87d.svg"> {% endif %}</td>
                 <td>{{current_game["p1_points"]}}</td>
                 {% for set in range(3) %}
@@ -141,12 +141,18 @@
                 {% if not match_is_over %}
                     <td><b>Choose point winner</b></td>
                 {% else %}
-                    <td><b>Player {{match_winner}} won</b></td>
+                    <td><b>
+                        {% if player1 == match_winner %}
+                            {{player1_name}}
+                        {% else %}
+                            {{player2_name}}
+                        {% endif %} won
+                    </b></td>
                 {% endif %}
 
             </tr>
             <tr class="player_row">
-                <td>{{player2}}</td>
+                <td>{{player2_name}}</td>
                 <td>{% if server == 2%} <img src = 'https://yastatic.net/s3/web4static/_/v2/static/media/short-logo-ru.b57bb87d.svg'> {% endif %}</td>
                 <td>{{current_game["p2_points"]}}</td>
                 {% for set in range(3) %}

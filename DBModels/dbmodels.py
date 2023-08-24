@@ -16,9 +16,9 @@ class Base(DeclarativeBase):
 class Match(Base):
     __tablename__ = "matches"
     uuid: Mapped[str] = mapped_column(primary_key=True)
-    player1: Mapped[int] = mapped_column(ForeignKey("players.id"))
-    player2: Mapped[int] = mapped_column(ForeignKey("players.id"))
-    winner: Mapped[int] = mapped_column(ForeignKey("players.id"), nullable=True)
+    player1: Mapped[int] = mapped_column(ForeignKey("players.id", ondelete="CASCADE"))
+    player2: Mapped[int] = mapped_column(ForeignKey("players.id", ondelete="CASCADE"))
+    winner: Mapped[int] = mapped_column(ForeignKey("players.id", ondelete="CASCADE"), nullable=True)
     score: Mapped[str] = mapped_column(String(500))
 
     def __repr__(self) -> str:

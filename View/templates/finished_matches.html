@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+    <head >
+        <meta lang="en">
+            <style>
+                body {
+                    background-color:#845EC2;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+                }
+
+                .container {
+                    padding: 5px;
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: no-wrap;
+                    justify-content: center ;
+                    align-content:center;
+                    align-items: center;
+                    justify-items: center;
+                    margin: 2vh;
+
+                }
+
+                .logo {
+                    font-size: 50px;
+                    display: flex;
+                    align-items:center;
+                    justify-content: center;
+                    align-content: center;
+                    justify-items: center;
+                    flex-direction: column;
+                    box-shadow: 0px 5px 10px 2px #cdcad0;
+                    color: rgba(43, 6, 44, 0.638);
+
+                }
+
+                .finishedmatchestable, .scoretable {
+                    font-size: 30px;
+                    display: flex;
+                    align-items:center;
+                    justify-content: center;
+                    align-content: center;
+                    justify-items: center;
+                    flex-direction: column;
+                    box-shadow: 0px 5px 10px 2px #cdcad03c;
+                    color: rgba(66, 14, 68, 0.638);
+                    background-color:#b885558d;
+                    margin: 5vh;
+                    border:  solid;
+                    padding: 10px;
+
+
+                }
+
+                .label {
+
+                    font-size: 25px;
+                    padding: 0.75em;
+                    margin: 1em;
+                    background-color: #9B89B3;
+                    border: 0;
+                    text-decoration: none;
+                    box-shadow: 5px 5px 10px 2px #cdcad042;
+                    color: rgba(43, 6, 44, 0.599);
+
+
+                }
+
+                input, a {
+
+                    font-size: 25px;
+                    padding: 0.75em;
+                    margin: 1em;
+                    border: 0;
+                    text-decoration: none;
+                    box-shadow: 5px 5px 10px 2px #cdcad0;
+                    color: rgba(43, 16, 44, 0.599);
+
+
+
+                }
+
+                select {
+                    margin: 5px 25px 5px 5px;
+                }
+
+                td, tr {
+                    border:1px solid #762f5d;
+                    align-content: center;
+                    text-align: center;
+                    width: 10vw;
+                    font-size: 20px;
+                    padding: 4px;
+
+
+                }
+
+                .submit_button, a {
+                    background-color: #9B89B3;
+                    border-radius: 5px 15px;
+                }
+
+                .player_row, .match_row {
+                    background-color: #b88555b0;
+
+
+                }
+
+                .submit_button:hover, a:hover {
+                    background-color: #e8e3eb;
+                }
+
+                .disabled-link {
+                    pointer-events: none;
+                    cursor: default;
+                    color: #9B89B3;
+                    box-shadow: 5px 5px 10px 2px #845EC2;
+
+                }
+
+                button {
+                    padding: 10px;
+                    margin: 10px;;
+                }
+
+            </style>
+    </head>
+
+    <body>
+        <div class="logo">
+            <p>
+                <b>Finished Matches</b>
+            </p>
+        </div>
+
+
+
+        <div class="container">
+            <form action="/matches" method="get" id="pagination_form">
+                    <label for="player_select">Filter by player</label>
+                        <select name="filter_by_player_name" id="filter_by_player_name">
+                            <option value = "all"> --ALL-- </option>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+
+                    <label for="num_rows_select">Number of records per page</label>
+                        <select name="num_rows" id="num_rows">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                    <input type="submit" class="submit_button" value="Refresh">
+            </form>
+
+
+
+
+
+        </div>
+
+
+        <div class="container">
+            <button id="PrevButton" class="submit_button"> PREV </button>
+            <button id="NextButton" class="submit_button"> NEXT </button>
+
+
+        </div>
+
+        <div>
+            <table class="finishedmatchestable">
+                <tr class="match_row">
+                    <td>#</td>
+                    <td>Player1</td>
+                    <td>Player2</td>
+                    <td>Match Winner</td>
+                    <td>Set 1</td>
+                    <td>Set 2</td>
+                    <td>Set 3</td>
+
+                </tr>
+
+                {% for match in output %}
+                <tr>
+                    <td></td>
+                    <td>{{match["player1"]}}</td>
+                    <td>{{match.player2}}</td>
+                    <td>{{match.winner}}</td>
+                    <td>{{match.set1_results}}</td>
+                    <td>{{match.set2_results}}</td>
+                    <td>{{match.set3_results}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded",
+                           function() {var qs_data = parseQueryString();
+                                        presetSelects(qs_data);
+                                        replaceQueryString(qs_data);}
+                                    );
+
+            function parseQueryString() {
+              const urlParams = new URLSearchParams(window.location.search);
+              var num_rows = urlParams.get('num_rows');
+              var page = urlParams.get('page');
+              var filter_by_player_name = urlParams.get('filter_by_player_name');
+              if (!num_rows) {
+                            num_rows = "10";
+              };
+              if (!page) {
+                            page = "1";
+              };
+              if (!filter_by_player_name){
+                            filter_by_player_name = "all";
+              };
+              return {
+                num_rows: num_rows,
+                page: page,
+                filter_by_player_name: filter_by_player_name,
+              };
+            };
+
+            function presetSelects(qs_data) {
+                document.getElementById("num_rows").value = qs_data.num_rows;
+                document.getElementById("filter_by_player_name").value = qs_data.filter_by_player_name;
+            };
+
+            function replaceQueryString(qs_data) {
+                var url = new URL(window.location.href);
+                url.searchParams.set("filter_by_player_name", qs_data.filter_by_player_name);
+                url.searchParams.set("num_rows", qs_data.num_rows);
+                url.searchParams.set("page", qs_data.page);
+
+                window.history.replaceState({}, '', url);
+            };
+
+            function processNextButton() {
+                var url = new URL(window.location.href);
+                var currentPageNum = parseInt(url.searchParams.get("page"));
+                var nextPageNum = currentPageNum + 1;
+                url.searchParams.set("page", nextPageNum);
+                window.location.href = url;
+            };
+
+
+
+            function processPrevButton() {
+                var url = new URL(window.location.href);
+                var currentPageNum = parseInt(url.searchParams.get("page"));
+                if (currentPageNum > 1) {
+                    var nextPageNum = currentPageNum - 1;}
+                else {
+                    var nextPageNum = currentPageNum;
+                };
+                    url.searchParams.set("page", nextPageNum);
+                window.location.href = url;
+
+            };
+
+
+            NextButton.addEventListener("click", function() {processNextButton();});
+            PrevButton.addEventListener("click", function() {processPrevButton();});
+
+
+
+
+        </script>
+
+    </body>
+
+
+</html>

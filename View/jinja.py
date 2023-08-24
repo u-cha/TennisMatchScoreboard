@@ -6,7 +6,7 @@ class View:
         "index": "index.html",
         "new_match": "new_match.html",
         "match_score": "match_score.html",
-        "matches": "matches.html"
+        "finished_matches": "finished_matches.html"
     }
 
     env = Environment(

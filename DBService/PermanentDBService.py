@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy import create_engine, Connection
-from sqlalchemy.orm import Session
-from sqlalchemy import select, insert
+from sqlalchemy.orm import Session, Query
+from sqlalchemy import select, insert, update
 from DBModels.dbmodels import Base, Match, Player
 
 
@@ -29,7 +29,8 @@ class PermanentDBService:
         cls.__create_tables()
         with Connection(cls.engine) as connection:
             session = Session(connection)
-            result = session.execute(select(Player.id).where(Player.name == name))
+            stmt = select(Player.id).where(Player.name == name)
+            result = session.execute(stmt)
             return result.fetchone()[0]
 
     @classmethod
@@ -41,12 +42,20 @@ class PermanentDBService:
             return result.fetchall()
 
     @classmethod
-    def get_all_matches(cls):
+    def get_matches(cls, **kwargs):
         cls.__create_tables()
         with Connection(cls.engine) as connection:
             session = Session(connection)
-            result = session.execute(select(Match))
+            result = session.execute(Query(Match).limit(kwargs["limit"]).offset(kwargs["offset"]))
             return result.fetchall()
+
+    @classmethod
+    def get_matches_count(cls):
+        cls.__create_tables()
+        with Connection(cls.engine) as connection:
+            session = Session(connection)
+            result = session.query(Match).count()
+            return result
 
     @classmethod
     def delete_match(cls, match_uuid):
@@ -55,3 +64,14 @@ class PermanentDBService:
     @classmethod
     def delete_players(cls, match_uuid):
         pass
+
+    @classmethod
+    def update_player_ids(cls, match_uuid, permanent_ids_dict):
+        cls.__create_tables()
+        with Connection(cls.engine) as connection:
+            session = Session(connection)
+            stmt = update(Match).where(Match.uuid == match_uuid).values(
+                player1=permanent_ids_dict["player1"], player2=permanent_ids_dict["player2"]
+            )
+            session.execute(stmt)
+            session.commit()
