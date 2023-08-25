@@ -39,4 +39,7 @@ class DBService:
     def get_matches_count(self):
         return self.service.get_matches_count()
 
+    def get_player_names_list(self):
+        return self.service.get_player_names_list()
+
 

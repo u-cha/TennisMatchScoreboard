@@ -141,10 +141,9 @@
                     <label for="player_select">Filter by player</label>
                         <select name="filter_by_player_name" id="filter_by_player_name">
                             <option value = "all"> --ALL-- </option>
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
+                                {% for player_name in player_names_list %}
+                                <option value="{{player_name}}">{{player_name}}</option>
+                                {% endfor %}
                         </select>
 
                     <label for="num_rows_select">Number of records per page</label>

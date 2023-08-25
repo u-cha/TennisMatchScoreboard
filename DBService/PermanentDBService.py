@@ -1,7 +1,7 @@
 import sqlalchemy.exc
 from sqlalchemy import create_engine, Connection
 from sqlalchemy.orm import Session, Query
-from sqlalchemy import select, insert, update
+from sqlalchemy import select, insert, update, or_, and_
 from DBModels.dbmodels import Base, Match, Player
 
 
@@ -46,7 +46,12 @@ class PermanentDBService:
         cls.__create_tables()
         with Connection(cls.engine) as connection:
             session = Session(connection)
-            result = session.execute(Query(Match).limit(kwargs["limit"]).offset(kwargs["offset"]))
+            stmt = select(Match).join(Player, or_(Player.id == Match.player1, Player.id == Match.player2))
+            filter_by_player_name = kwargs['filter_by_player_name']
+            if filter_by_player_name:
+                stmt = stmt.filter(Player.name == filter_by_player_name)
+            stmt = stmt.limit(kwargs["limit"]).offset(kwargs["offset"])
+            result = session.execute(stmt)
             return result.fetchall()
 
     @classmethod
@@ -75,3 +80,24 @@ class PermanentDBService:
             )
             session.execute(stmt)
             session.commit()
+
+    @classmethod
+    def get_player_names_list(cls):
+        cls.__create_tables()
+        with Connection(cls.engine) as connection:
+            session = Session(connection)
+            player_names_list = [row[0] for row in
+                                 session.execute(select(Player.name).order_by(Player.name.asc())).fetchall()]
+        return player_names_list
+
+    @classmethod
+    def get_player_names(cls, player1_id, player2_id):
+        cls.__create_tables()
+        with Connection(cls.engine) as connection:
+            session = Session(connection)
+            player_ids = [player1_id, player2_id]
+            stmt = select(Player.name).where(Player.id.in_(player_ids))
+            result = session.execute(stmt)
+            names_list = result.fetchall()
+            names_dict = {"player1_name": names_list[0][0], "player2_name": names_list[1][0]}
+            return names_dict
