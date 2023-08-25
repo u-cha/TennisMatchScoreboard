@@ -163,19 +163,14 @@
                     {% endif %}
                 {% endfor %}
 
-                {% if not match_is_over %}
-                    <td>
+                <td>
+                    {% if not match_is_over %}
                         <input type="submit" class="submit_button" name="player2" value="+" form="pointForm" />
-                    </td>
-                {% else %}
+                    {% else %}
+                        <a  href ="/"><button class = "submit_button">TO MAIN PAGE</button></a>
+                    {% endif %}
+                </td>
 
-
-                    <td>
-                        <form method="get" id="back_to_main" action="/">
-                            <input type="submit" class="submit_button" name="back_to_main" value="Back to main page"/>
-                        </form>
-                    </td>
-                {% endif %}
               </tr>
           </table>
     </div>
