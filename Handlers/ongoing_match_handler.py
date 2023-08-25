@@ -1,9 +1,9 @@
 from Handlers.handler import Handler
 from View import View
 from DBService import DBService, InMemoryDBService, PermanentDBService
-from urllib.parse import parse_qs, urlparse
-from ScoreUpdateService import ScoreUpdateService
-from Score import ScoreSchema
+from urllib.parse import parse_qs
+from Scores.ScoreUpdateService import ScoreUpdateService
+from Scores.Score import ScoreSchema
 
 
 class OngoingMatchHandler(Handler):

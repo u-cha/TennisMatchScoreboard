@@ -1,6 +1,6 @@
 import unittest
 
-from Set import Set
+from Scores.Score import Set
 
 
 class TestSetClass(unittest.TestCase):

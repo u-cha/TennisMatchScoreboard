@@ -1,7 +1,7 @@
 import json
-from Score import Score, ScoreSchema
-from Game import Game
-from Set import Set
+from Scores.Score import Score, ScoreSchema
+from Scores.Game import Game
+from Scores.Set import Set
 
 
 class ScoreUpdateService:

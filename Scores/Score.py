@@ -1,7 +1,7 @@
 from random import randint
 
-from Game import Game, GameSchema
-from Set import Set, SetSchema
+from Scores.Game import Game, GameSchema
+from Scores.Set import Set, SetSchema
 from marshmallow import Schema, fields, ValidationError, post_load
 
 

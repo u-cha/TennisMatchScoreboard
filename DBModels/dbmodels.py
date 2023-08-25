@@ -1,12 +1,9 @@
-import sqlalchemy.exc
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
-from sqlalchemy import create_engine, Connection
-from sqlalchemy.orm import Session
 
 
 class Base(DeclarativeBase):
@@ -39,23 +36,3 @@ class Player(Base):
         return f"Player(id={self.id!r}, name={self.name!r})"
 
 
-if __name__ == "__main__":
-
-    engine = create_engine("sqlite://", echo=True)
-    Base.metadata.create_all(engine)
-
-    with Connection(engine) as connection:
-        session = Session(connection)
-        player = Player(name='Agassi')
-        player2 = Player(name='Federer')
-
-        session.add_all([player, player2])
-
-        session.commit()
-
-        player3 = Player(name='Agassi')
-        try:
-            session.add(player3)
-            session.commit()
-        except sqlalchemy.exc.IntegrityError as e:
-            print("smth", e.__dict__)

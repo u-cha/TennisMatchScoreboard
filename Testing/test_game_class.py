@@ -1,6 +1,6 @@
 import unittest
 
-from Game import Game
+from Scores.Score import Game
 
 
 class TestGameClass(unittest.TestCase):

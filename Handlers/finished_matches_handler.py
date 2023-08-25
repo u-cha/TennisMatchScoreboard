@@ -1,10 +1,8 @@
 from Handlers.handler import Handler
 from View import View
-from DBService import DBService, InMemoryDBService, PermanentDBService
-from urllib.parse import parse_qs, urlparse
-from ScoreUpdateService import ScoreUpdateService
-import json
-from Score import Score, ScoreSchema
+from DBService import DBService, PermanentDBService
+from urllib.parse import parse_qs
+from Scores.Score import ScoreSchema
 
 
 class FinishedMatchesHandler(Handler):
