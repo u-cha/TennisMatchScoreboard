@@ -1,2 +1,2 @@
-from View.jinja import View
+from .jinja import View
 

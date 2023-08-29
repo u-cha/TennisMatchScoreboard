@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, Connection
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete, union
-from DBModels.dbmodels import Base, Match, Player
+from DBModels import Base, Match, Player
 
 
 class InMemoryDBService:
@@ -12,6 +12,12 @@ class InMemoryDBService:
                            poolclass=StaticPool, echo=True)
 
     connection = None
+
+    @classmethod
+    def __get_session(cls):
+        cls.__establish_connection()
+        cls.__create_tables()
+        return Session(cls.connection, expire_on_commit=False)
 
     @classmethod
     def __establish_connection(cls):
@@ -24,9 +30,7 @@ class InMemoryDBService:
 
     @classmethod
     def persist(cls, obj):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection, expire_on_commit=False) as session:
+        with cls.__get_session() as session:
             try:
                 session.add(obj)
                 session.commit()
@@ -36,52 +40,40 @@ class InMemoryDBService:
 
     @classmethod
     def remove(cls, obj):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection, expire_on_commit=False) as session:
+        with cls.__get_session() as session:
             session.delete(obj)
             session.commit()
 
     @classmethod
     def get_player_id_by_name(cls, name):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection) as session:
+        with cls.__get_session() as session:
             stmt = select(Player.id).where(Player.name == name)
             result = session.execute(stmt)
             return result.fetchone()[0]
 
     @classmethod
     def get_match_by_uuid(cls, uuid):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection) as session:
+        with cls.__get_session() as session:
             stmt = select(Match).where(Match.uuid == uuid)
             result = session.execute(stmt)
             return result.fetchone()[0]
 
     @classmethod
     def update_match_score(cls, uuid, new_score):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection) as session:
+        with cls.__get_session() as session:
             stmt = update(Match).where(Match.uuid == uuid).values(score=new_score)
             session.execute(stmt)
 
     @classmethod
     def delete_match(cls, match_uuid):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection) as session:
+        with cls.__get_session() as session:
             stmt = delete(Match).where(Match.uuid == match_uuid)
             session.execute(stmt)
             session.commit()
 
     @classmethod
     def delete_players(cls, match_uuid):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection) as session:
+        with cls.__get_session() as session:
             select1 = select(Match.player1).where(Match.uuid == match_uuid)
             select2 = select(Match.player2).where(Match.uuid == match_uuid)
             player_ids = union(select1, select2)
@@ -91,9 +83,7 @@ class InMemoryDBService:
 
     @classmethod
     def get_player_names(cls, player1_id, player2_id):
-        cls.__establish_connection()
-        cls.__create_tables()
-        with Session(cls.connection) as session:
+        with cls.__get_session() as session:
             player_ids = [player1_id, player2_id]
             stmt = select(Player.name).where(Player.id.in_(player_ids))
             result = session.execute(stmt)

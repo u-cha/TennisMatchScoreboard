@@ -1,8 +1,7 @@
+from urllib.parse import parse_qs
 from Handlers.handler import Handler
 from View import View
 from NewMatchCreationService import NewMatchService
-from UUIDEmissionService import UUIDEmissionService
-from urllib.parse import parse_qs
 from DBService import DBService, InMemoryDBService, PermanentDBService
 from DBModels.dbmodels import Player
 
