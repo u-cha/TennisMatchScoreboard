@@ -13,10 +13,13 @@ class PermanentDBService:
         Base.metadata.create_all(cls.engine)
 
     @classmethod
-    def persist(cls, obj):
+    def __get_session(cls):
         cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        return Session(Connection(cls.engine))
+
+    @classmethod
+    def persist(cls, obj):
+        with cls.__get_session() as session:
             try:
                 session.merge(obj)
                 session.commit()
@@ -26,26 +29,20 @@ class PermanentDBService:
 
     @classmethod
     def get_player_id_by_name(cls, name):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             stmt = select(Player.id).where(Player.name == name)
             result = session.execute(stmt)
             return result.fetchone()[0]
 
     @classmethod
     def get_match_by_uuid(cls, uuid):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             result = session.execute(select(Match).where(Match.uuid == uuid))
             return result.fetchall()
 
     @classmethod
     def get_matches(cls, **kwargs):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             stmt = select(Match).join(Player, or_(Player.id == Match.player1, Player.id == Match.player2))
             filter_by_player_name = kwargs['filter_by_player_name']
             if filter_by_player_name:
@@ -56,9 +53,7 @@ class PermanentDBService:
 
     @classmethod
     def get_matches_count(cls):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             result = session.query(Match).count()
             return result
 
@@ -72,9 +67,7 @@ class PermanentDBService:
 
     @classmethod
     def update_player_ids(cls, match_uuid, permanent_ids_dict):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             stmt = update(Match).where(Match.uuid == match_uuid).values(
                 player1=permanent_ids_dict["player1"], player2=permanent_ids_dict["player2"]
             )
@@ -83,18 +76,14 @@ class PermanentDBService:
 
     @classmethod
     def get_player_names_list(cls):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             player_names_list = [row[0] for row in
                                  session.execute(select(Player.name).order_by(Player.name.asc())).fetchall()]
         return player_names_list
 
     @classmethod
     def get_player_names(cls, player1_id, player2_id):
-        cls.__create_tables()
-        with Connection(cls.engine) as connection:
-            session = Session(connection)
+        with cls.__get_session() as session:
             player_ids = [player1_id, player2_id]
             stmt = select(Player.name).where(Player.id.in_(player_ids))
             result = session.execute(stmt)
