@@ -63,6 +63,7 @@ class InMemoryDBService:
         with cls.__get_session() as session:
             stmt = update(Match).where(Match.uuid == uuid).values(score=new_score)
             session.execute(stmt)
+            session.commit()
 
     @classmethod
     def delete_match(cls, match_uuid):

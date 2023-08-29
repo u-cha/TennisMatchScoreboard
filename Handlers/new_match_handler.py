@@ -17,6 +17,7 @@ class NewMatchHandler(Handler):
         if player_persistence_result is False:
             body = View.render("busy_player")
             self.response.body = body
+            self.response.status = "400"
             return
         match = self.__get_new_match(player1_name, player2_name)
         self.__persist_match(match)

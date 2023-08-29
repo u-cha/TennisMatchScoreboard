@@ -11,6 +11,7 @@ class ScoreUpdateService:
             return match
         score = cls.__retrieve_score(match)
         score = cls.add_point(score, point_winner)
+        match.winner = score.match_winner
         match.score = score.serialize()
         return match
 

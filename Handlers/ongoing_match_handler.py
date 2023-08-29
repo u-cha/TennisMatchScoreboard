@@ -21,7 +21,6 @@ class OngoingMatchHandler(Handler):
         player_names_dict = self.__get_player_names(match.player1, match.player2, InMemoryDBService)
         score = ScoreSchema().loads(match.score)
         if score.match_is_over:
-            match.winner = score.match_winner
             self.__persist_match(match, PermanentDBService)
             permanent_ids_dict = self.__get_ids_by_names(player_names_dict, PermanentDBService)
             match_uuid = self.__get_uuid_from_query_string()
