@@ -1,4 +1,5 @@
 from waitress import serve
+from whitenoise import WhiteNoise
 from router import Router
 
 
@@ -17,4 +18,6 @@ class WSGIApp:
         yield response.body
 
 
-serve(WSGIApp, host='localhost', port=3000)
+if __name__ == "__main__":
+    app = WhiteNoise(WSGIApp, "View/static/")
+    serve(app, host='localhost', port=3000)

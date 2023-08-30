@@ -2,129 +2,7 @@
 <html>
     <head >
         <meta lang="en">
-            <style>
-                body {
-                    background-color:#845EC2;
-                    font-family: Verdana, Geneva, Tahoma, sans-serif;
-
-                }
-
-                .container {
-                    padding: 2px;
-                    display: flex;
-                    flex-direction: row;
-                    flex-wrap: no-wrap;
-                    justify-content: center ;
-                    align-content:center;
-                    align-items: center;
-                    justify-items: center;
-                    margin: 2vh;
-
-                }
-
-                .logo {
-                    font-size: 30px;
-                    display: flex;
-                    align-items:center;
-                    justify-content: center;
-                    align-content: center;
-                    justify-items: center;
-                    flex-direction: column;
-                    box-shadow: 0px 5px 10px 2px #cdcad0;
-                    color: rgba(43, 6, 44, 0.638);
-
-                }
-
-                .finishedmatchestable, .scoretable {
-                    font-size: 30px;
-                    display: flex;
-                    align-items:center;
-                    justify-content: center;
-                    align-content: center;
-                    justify-items: center;
-                    flex-direction: column;
-                    box-shadow: 0px 5px 10px 2px #cdcad03c;
-                    color: rgba(66, 14, 68, 0.638);
-                    background-color:#b885558d;
-                    margin: 5vh;
-                    border:  solid;
-                    padding: 10px;
-
-
-                }
-
-                .label {
-
-                    font-size: 25px;
-                    padding: 0.75em;
-                    margin: 1em;
-                    background-color: #9B89B3;
-                    border: 0;
-                    text-decoration: none;
-                    box-shadow: 5px 5px 10px 2px #cdcad042;
-                    color: rgba(43, 6, 44, 0.599);
-
-
-                }
-
-                input{
-
-                    font-size: 15px;
-                    padding: 0.75em;
-                    margin: 1em;
-                    border: 0;
-                    text-decoration: none;
-                    box-shadow: 5px 5px 10px 2px #cdcad0;
-                    color: rgba(43, 16, 44, 0.599);
-
-
-
-                }
-
-                select {
-                    margin: 5px 25px 5px 5px;
-                }
-
-                td, tr {
-                    border:1px solid #762f5d;
-                    align-content: center;
-                    text-align: center;
-                    width: 8vw;
-                    font-size: 15px;
-                    padding: 3px;
-
-
-                }
-
-                .submit_button, a {
-                    background-color: #9B89B3;
-                    border-radius: 4px 12px;
-                }
-
-                .player_row, .match_row {
-                    background-color: #b88555b0;
-
-
-                }
-
-                .submit_button:hover, a:hover {
-                    background-color: #e8e3eb;
-                }
-
-                .disabled-link {
-                    pointer-events: none;
-                    cursor: default;
-                    color: #9B89B3;
-                    box-shadow: 5px 5px 10px 2px #845EC2;
-
-                }
-
-                button {
-                    padding: 10px;
-                    margin: 10px;;
-                }
-
-            </style>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
 
     <body>
@@ -154,19 +32,12 @@
                         </select>
                     <input type="submit" class="submit_button" value="Refresh">
             </form>
-
-
-
-
-
         </div>
 
 
         <div class="container">
             <button id="PrevButton" class="submit_button"> PREV </button>
             <button id="NextButton" class="submit_button"> NEXT </button>
-
-
         </div>
 
         <div>
@@ -265,13 +136,8 @@
 
             NextButton.addEventListener("click", function() {processNextButton();});
             PrevButton.addEventListener("click", function() {processPrevButton();});
-
-
-
-
         </script>
 
     </body>
-
 
 </html>

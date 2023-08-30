@@ -4,6 +4,7 @@ from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete, union
 from DBModels import Base, Match, Player
+from exceptions import MatchNotFoundByUUID
 
 
 class InMemoryDBService:
@@ -54,9 +55,12 @@ class InMemoryDBService:
     @classmethod
     def get_match_by_uuid(cls, uuid):
         with cls.__get_session() as session:
-            stmt = select(Match).where(Match.uuid == uuid)
-            result = session.execute(stmt)
-            return result.fetchone()[0]
+            try:
+                stmt = select(Match).where(Match.uuid == uuid)
+                result = session.execute(stmt)
+                return result.fetchone()[0]
+            except TypeError:
+                raise MatchNotFoundByUUID("no ongoing matches with this uuid. perhaps, this match is over.")
 
     @classmethod
     def update_match_score(cls, uuid, new_score):

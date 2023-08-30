@@ -2,110 +2,7 @@
 <html>
     <head >
         <meta lang="en">
-        <style> body {
-            background-color:#845EC2;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-
-        }
-
-        .container {
-            padding: 20px;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: no-wrap;
-            justify-content: center;
-            align-content: center;
-            align-items: center;
-            justify-items: center;
-            margin: 5vh;
-
-        }
-
-        .logo {
-            font-size: 50px;
-            display: flex;
-            align-items:center;
-            justify-content: center;
-            align-content: center;
-            justify-items: center;
-            flex-direction: column;
-            box-shadow: 0px 5px 10px 2px #cdcad0;
-            color: rgba(43, 6, 44, 0.638);
-
-        }
-
-        .scoretable {
-            font-size: 30px;
-            display: flex;
-            align-items:center;
-            justify-content: center;
-            align-content: center;
-            justify-items: center;
-            flex-direction: column;
-            box-shadow: 0px 5px 10px 2px #cdcad03c;
-            color: rgba(66, 14, 68, 0.638);
-            background-color:#b885558d;
-            margin: 5vh;
-            border:  solid;
-            padding: 10px;
-
-
-        }
-
-        .label {
-
-            font-size: 25px;
-            padding: 0.75em;
-            margin: 1em;
-            background-color: #9B89B3;
-            border: 0;
-            text-decoration: none;
-            box-shadow: 5px 5px 10px 2px #cdcad042;
-            color: rgba(43, 6, 44, 0.599);
-
-
-        }
-
-        input {
-
-            font-size: 25px;
-            padding: 0.75em;
-            margin: 1em;
-            border: 0;
-            text-decoration: none;
-            box-shadow: 5px 5px 10px 2px #cdcad0;
-            color: rgba(43, 16, 44, 0.599);
-
-
-
-        }
-
-        td, tr {
-            border:1px solid #762f5d;
-            align-content: center;
-            text-align: center;
-            width: 10vw;
-            font-size: 20px;
-            padding: 4px;
-
-
-        }
-
-        .submit_button {
-            background-color: #9B89B3;
-            border-radius: 5px 15px;
-        }
-
-        .player_row {
-            background-color: #b88555b0;
-
-
-        }
-
-        .submit_button:hover {
-            background-color: #e8e3eb;
-        }
-        </style>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
 
     <body>
@@ -117,7 +14,7 @@
         <table class="scoretable">
             <tr class="player_row">
                 <td>{{player1_name}}</td>
-                <td>{% if server == 1%} <img src = "https://yastatic.net/s3/web4static/_/v2/static/media/short-logo-ru.b57bb87d.svg"> {% endif %}</td>
+                <td>{% if server == 1%} <img src = 'img/tennis_ball.png' width="20" height="20"> {% endif %}</td>
                 <td>{{current_game["p1_points"]}}</td>
                 {% for set in range(3) %}
                     {% if set < num_sets %}
@@ -153,7 +50,7 @@
             </tr>
             <tr class="player_row">
                 <td>{{player2_name}}</td>
-                <td>{% if server == 2%} <img src = 'https://yastatic.net/s3/web4static/_/v2/static/media/short-logo-ru.b57bb87d.svg'> {% endif %}</td>
+                <td>{% if server == 2%} <img src = 'img/tennis_ball.png' width="20" height="20"> {% endif %}</td>
                 <td>{{current_game["p2_points"]}}</td>
                 {% for set in range(3) %}
                     {% if set < num_sets %}
@@ -167,7 +64,7 @@
                     {% if not match_is_over %}
                         <input type="submit" class="submit_button" name="player2" value="+" form="pointForm" />
                     {% else %}
-                        <a  href ="/"><button class = "submit_button">TO MAIN PAGE</button></a>
+                        <a  href ="/">TO MAIN</a>
                     {% endif %}
                 </td>
 
@@ -176,6 +73,5 @@
     </div>
 
     </body>
-
 
 </html>

@@ -4,18 +4,33 @@ from DBService import DBService, InMemoryDBService, PermanentDBService
 from urllib.parse import parse_qs
 from Scores.ScoreUpdateService import ScoreUpdateService
 from Scores.Score import ScoreSchema
+from exceptions import MatchNotFoundByUUID
 
 
 class OngoingMatchHandler(Handler):
     def perform_get(self):
-        match = self.__retrieve_match_from_db()
-        match_params = ScoreUpdateService.show_match_params(match)
-        player_names = self.__get_player_names(match.player1, match.player2, InMemoryDBService)
-        body = View.render("match_score", **match_params, **player_names)
-        self.response.body = body
+        try:
+            match = self.__retrieve_match_from_db()
+            match_params = ScoreUpdateService.show_match_params(match)
+            player_names = self.__get_player_names(match.player1, match.player2, InMemoryDBService)
+            body = View.render("match_score", **match_params, **player_names)
+            self.response.body = body
+        except MatchNotFoundByUUID as exc:
+            body = View.render("match_not_found", error_message=exc.message)
+            self.response.body = body
+            self.response.status = "404 Not Found"
+
+
+
 
     def perform_post(self):
-        match = self.__retrieve_match_from_db()
+        try:
+            match = self.__retrieve_match_from_db()
+        except MatchNotFoundByUUID as exc:
+            body = View.render("match_not_found", error_message=exc.message)
+            self.response.body = body
+            self.response.status = "404 Not Found"
+            return
         point_winner = self.__retrieve_point_winner()
         match = ScoreUpdateService.update(match, point_winner)
         player_names_dict = self.__get_player_names(match.player1, match.player2, InMemoryDBService)
