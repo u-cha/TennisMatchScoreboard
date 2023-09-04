@@ -1,4 +1,5 @@
 from jinja2 import Environment, PackageLoader, select_autoescape
+from View.gamescoretranslator import GameScoreTranslator
 
 
 class View:
@@ -25,4 +26,6 @@ class View:
     @classmethod
     def render(cls, name, *args, **kwargs):
         template = cls.__get_template_by_name(name)
+        if kwargs.get("current_game"):
+            kwargs["current_game"] = GameScoreTranslator.translate(kwargs["current_game"])
         return template.render(*args, **kwargs)
