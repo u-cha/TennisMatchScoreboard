@@ -20,9 +20,6 @@ class OngoingMatchHandler(Handler):
             self.response.body = body
             self.response.status = "404 Not Found"
 
-
-
-
     def perform_post(self):
         try:
             match = self.__retrieve_match_from_db()
@@ -33,20 +30,20 @@ class OngoingMatchHandler(Handler):
             return
         point_winner = self.__retrieve_point_winner()
         match = ScoreUpdateService.update(match, point_winner)
-        player_names_dict = self.__get_player_names(match.player1, match.player2, InMemoryDBService)
+        player_names = self.__get_player_names(match.player1, match.player2, InMemoryDBService)
         score = ScoreSchema().loads(match.score)
         if score.match_is_over:
             self.__persist_match(match, PermanentDBService)
-            permanent_ids_dict = self.__get_ids_by_names(player_names_dict, PermanentDBService)
+            permanent_ids_dict = self.__get_ids_by_names(player_names, PermanentDBService)
             match_uuid = self.__get_uuid_from_query_string()
-            self.__update_ids(match_uuid, permanent_ids_dict, PermanentDBService)
+            self.__update_ids_to_permanent(match_uuid, permanent_ids_dict, PermanentDBService)
             self.__delete_players(match_uuid, InMemoryDBService)
             self.__delete_match(match_uuid, InMemoryDBService)
 
         else:
             self.__persist_match(match, InMemoryDBService)
         match_params = ScoreUpdateService.show_match_params(match)
-        body = View.render("match_score", **match_params, **player_names_dict)
+        body = View.render("match_score", **match_params, **player_names)
         self.response.body = body
 
     def __get_uuid_from_query_string(self):
@@ -94,7 +91,6 @@ class OngoingMatchHandler(Handler):
             result.append(id_)
         return {"player1": result[0], "player2": result[1]}
 
-    def __update_ids(self, match_uuid, permanent_ids_dict, db_service):
+    @staticmethod
+    def __update_ids_to_permanent(match_uuid, permanent_ids_dict, db_service):
         DBService(db_service).update_ids(match_uuid, permanent_ids_dict)
-
-
