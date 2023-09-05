@@ -36,8 +36,8 @@ class DBService:
     def update_ids(self, match_uuid, permanent_ids_dict):
         return self.service.update_player_ids(match_uuid, permanent_ids_dict)
 
-    def get_matches_count(self):
-        return self.service.get_matches_count()
+    def get_matches_count(self, **kwargs):
+        return self.service.get_matches_count(**kwargs)
 
     def get_player_names_list(self):
         return self.service.get_player_names_list()

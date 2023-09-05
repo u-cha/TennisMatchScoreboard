@@ -32,15 +32,22 @@ class FinishedMatchesHandler(Handler):
     def perform_get(self):
         player_names_list = self.__get_player_names_list_from_db()
         filter_by_player_name = self.__retrieve_filter_by_player_name()
-        matches_count = self.__get_matches_count_from_db()
+        matches_count = self.__get_matches_count_from_db(filter_by_player_name=filter_by_player_name)
         num_rows = self.__retrieve_num_rows()
         page_number = self.__retrieve_page_number()
+        first_record_num = min(num_rows * (page_number - 1) + 1, matches_count)
+        last_record_num = min(num_rows * (page_number - 1) + num_rows, matches_count)
         records = self.__retrieve_matches_from_db(limit=num_rows,
                                                   offset=num_rows * (page_number - 1),
                                                   filter_by_player_name=filter_by_player_name)
 
         output = MatchRecordsProcessingService.process(records)
-        body = View.render("finished_matches", output=output, player_names_list=player_names_list)
+        body = View.render(
+            "finished_matches", output=output,
+            player_names_list=player_names_list,
+            matches_count=matches_count,
+            first_record_num=first_record_num,
+            last_record_num=last_record_num)
         self.response.body = body
 
     def perform_post(self):
@@ -62,9 +69,9 @@ class FinishedMatchesHandler(Handler):
         return num_rows
 
     @staticmethod
-    def __get_matches_count_from_db():
+    def __get_matches_count_from_db(**kwargs):
         db_service = DBService(PermanentDBService)
-        matches_count = db_service.get_matches_count()
+        matches_count = db_service.get_matches_count(**kwargs)
         return matches_count
 
     def __retrieve_page_number(self):

@@ -43,8 +43,8 @@ class PermanentDBService:
     @classmethod
     def get_matches(cls, **kwargs):
         with cls.__get_session() as session:
-            stmt = select(Match).join(Player, or_(Player.id == Match.player1, Player.id == Match.player2))
-            filter_by_player_name = kwargs['filter_by_player_name']
+            stmt = select(Match).distinct().join(Player, or_(Player.id == Match.player1, Player.id == Match.player2))
+            filter_by_player_name = kwargs.get('filter_by_player_name')
             if filter_by_player_name:
                 stmt = stmt.filter(Player.name == filter_by_player_name)
             stmt = stmt.limit(kwargs["limit"]).offset(kwargs["offset"])
@@ -52,9 +52,14 @@ class PermanentDBService:
             return result.fetchall()
 
     @classmethod
-    def get_matches_count(cls):
+    def get_matches_count(cls, **kwargs):
         with cls.__get_session() as session:
-            result = session.query(Match).count()
+            filter_by_player_name = kwargs.get('filter_by_player_name')
+            query = session.query(Match).distinct().join(Player, or_(Player.id == Match.player1, Player.id == Match.player2))
+            if filter_by_player_name:
+                result = query.filter(Player.name == filter_by_player_name).count()
+            else:
+                result = query.count()
             return result
 
     @classmethod
