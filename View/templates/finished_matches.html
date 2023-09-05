@@ -48,7 +48,7 @@
 
                     <td>Player1</td>
                     <td>Player2</td>
-                    <td>Match Winner</td>
+
                     <td>Set 1</td>
                     <td>Set 2</td>
                     <td>Set 3</td>
@@ -58,9 +58,17 @@
                 {% for match in output %}
                 <tr>
 
-                    <td>{{match["player1"]}}</td>
-                    <td>{{match.player2}}</td>
-                    <td>{{match.winner}}</td>
+                    <td>{{match.player1}}
+                        {% if match.winner == match.player1 %}
+                            <img src = 'img/trophy.png' width="20" height="20">
+                        {%endif %}
+                    </td>
+                    <td>{{match.player2}}
+                        {% if match.winner == match.player2 %}
+                            <img src = 'img/trophy.png' width="20" height="20">
+                        {%endif %}
+                    </td>
+
                     <td>{{match.set1_results}}</td>
                     <td>{{match.set2_results}}</td>
                     <td>{{match.set3_results}}</td>
