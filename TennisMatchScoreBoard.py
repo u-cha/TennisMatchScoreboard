@@ -20,4 +20,4 @@ class WSGIApp:
 
 if __name__ == "__main__":
     app = WhiteNoise(WSGIApp, "View/static/")
-    serve(app, host='localhost', port=3000)
+    serve(app, host='0.0.0.0', port=3333)
