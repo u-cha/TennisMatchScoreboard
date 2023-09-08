@@ -37,6 +37,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python -m pip install -r requirements.txt
     --volume tennis_match_db:/app
 
+
 # Switch to the non-privileged user to run the application.
 USER appuser
 
