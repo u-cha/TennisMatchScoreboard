@@ -48,4 +48,4 @@ COPY . .
 EXPOSE 3333
 
 # Run the application.
-CMD python3 -m TennisMatchScoreBoard
+CMD python3 -m /usr/sbin/TennisMatchScoreboard/TennisMatchScoreBoard
