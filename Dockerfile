@@ -34,7 +34,7 @@ RUN adduser \
 # into this layer.
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
-    python -m pip install -r requirements.txt
+    python -m pip install -r requirements.txt \
     --mount=type=volume,source=tennis_match_db,target=/app
 
 
