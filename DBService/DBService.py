@@ -1,4 +1,4 @@
-from DBModels.dbmodels import Match, Player
+from TennisMatchScoreboard.DBModels.dbmodels import Match, Player
 
 
 class DBService:

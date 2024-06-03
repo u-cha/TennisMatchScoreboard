@@ -3,8 +3,8 @@ from sqlalchemy import create_engine, Connection
 from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import Session
 from sqlalchemy import select, insert, update, delete, union
-from DBModels import Base, Match, Player
-from exceptions import MatchNotFoundByUUID
+from TennisMatchScoreboard.DBModels import Base, Match, Player
+from TennisMatchScoreboard.exceptions import MatchNotFoundByUUID
 
 
 class InMemoryDBService:

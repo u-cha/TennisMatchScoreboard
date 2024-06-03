@@ -2,11 +2,11 @@ import sqlalchemy.exc
 from sqlalchemy import create_engine, Connection
 from sqlalchemy.orm import Session, Query
 from sqlalchemy import select, insert, update, or_, and_
-from DBModels.dbmodels import Base, Match, Player
+from TennisMatchScoreboard.DBModels.dbmodels import Base, Match, Player
 
 
 class PermanentDBService:
-    engine = create_engine('sqlite+pysqlite:///dbase/permanent.db', echo=True)
+    engine = create_engine('sqlite+pysqlite:///db/permanent.db', echo=True)
 
     @classmethod
     def __create_tables(cls):
