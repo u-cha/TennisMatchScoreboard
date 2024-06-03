@@ -2,7 +2,7 @@ import sqlalchemy.exc
 from sqlalchemy import create_engine, Connection
 from sqlalchemy.orm import Session, Query
 from sqlalchemy import select, insert, update, or_, and_
-from TennisMatchScoreboard.DBModels.dbmodels import Base, Match, Player
+from DBModels.dbmodels import Base, Match, Player
 
 
 class PermanentDBService:
